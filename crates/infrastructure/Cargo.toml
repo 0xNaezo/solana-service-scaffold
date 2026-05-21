@@ -1,0 +1,30 @@
+[package]
+name = "infrastructure"
+version = "0.1.0"
+edition = "2024"
+
+[lints]
+workspace = true
+
+[dependencies]
+domain.workspace = true
+application.workspace = true
+
+reqwest = { version = "0.12", features = ["json"] }
+futures = "0.3"
+sqlx = { version = "0.7", features = [
+    "runtime-tokio-native-tls",
+    "postgres",
+    "macros",
+    "migrate",
+    "uuid",
+    "chrono",
+] }
+axum = { version = "0.7", features = ["macros"] }
+prometheus = "0.13"
+
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+anyhow.workspace = true
