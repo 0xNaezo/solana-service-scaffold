@@ -23,7 +23,7 @@ jobs:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
       - run: cargo fmt --all -- --check
-      - run: cargo clippy --all-targets --all-features --locked -- -D warnings
+      - run: cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
 
   security:
     name: Security Audit
@@ -79,4 +79,4 @@ jobs:
       - name: Run tests
         env:
           DATABASE_URL: postgres://postgres:password@localhost:5432/indexer_db
-        run: cargo test --all-targets --all-features --locked
+        run: cargo test --workspace --all-targets --all-features --locked
