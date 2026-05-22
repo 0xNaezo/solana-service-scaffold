@@ -10,18 +10,19 @@ workspace = true
 domain.workspace = true
 application.workspace = true
 
-reqwest = { version = "0.12", features = ["json"] }
+reqwest = { version = "0.13", features = ["json"] }
 futures = "0.3"
-sqlx = { version = "0.7", features = [
-    "runtime-tokio-native-tls",
+sqlx = { version = "0.9", features = [
+    "runtime-tokio",
+    "tls-native-tls",
     "postgres",
     "macros",
     "migrate",
     "uuid",
     "chrono",
 ] }
-axum = { version = "0.7", features = ["macros"] }
-prometheus = "0.13"
+axum = { version = "0.8", features = ["macros"] }
+prometheus = "0.14"
 
 tokio.workspace = true
 serde.workspace = true
