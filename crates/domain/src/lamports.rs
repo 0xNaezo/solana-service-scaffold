@@ -2,7 +2,7 @@ use crate::error::LamportsError;
 
 use std::fmt::{self, Display, Formatter};
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub struct Lamports(u64);
 
 impl Lamports {
@@ -36,11 +36,22 @@ impl Lamports {
             None => Err(LamportsError::NegativeBalance),
         }
     }
+
+    #[must_use]
+    pub const fn as_u64(self) -> u64 {
+        self.0
+    }
 }
 
 impl Display for Lamports {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{}", self.0)
+    }
+}
+
+impl From<Lamports> for u64 {
+    fn from(lamports: Lamports) -> Self {
+        lamports.0
     }
 }
 

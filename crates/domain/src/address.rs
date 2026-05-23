@@ -2,7 +2,7 @@ use crate::error::SolanaAddressError;
 
 use std::fmt::{self, Display, Formatter};
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct SolanaAddress(String);
 
 impl SolanaAddress {
@@ -15,9 +15,13 @@ impl SolanaAddress {
     pub fn parse(raw_address: &str) -> Result<Self, SolanaAddressError> {
         let mut output = [0; 32];
 
-        let written_bytes = bs58::decode(raw_address)
-            .onto(&mut output)
-            .map_err(|_| SolanaAddressError::InvalidDecode)?;
+        let written_bytes =
+            bs58::decode(raw_address)
+                .onto(&mut output)
+                .map_err(|err| match err {
+                    bs58::decode::Error::BufferTooSmall => SolanaAddressError::InvalidLen,
+                    _ => SolanaAddressError::InvalidDecode,
+                })?;
 
         if written_bytes != 32 {
             return Err(SolanaAddressError::InvalidLen);
@@ -30,6 +34,12 @@ impl SolanaAddress {
 impl Display for SolanaAddress {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{}", self.0)
+    }
+}
+
+impl AsRef<str> for SolanaAddress {
+    fn as_ref(&self) -> &str {
+        &self.0
     }
 }
 
@@ -91,6 +101,6 @@ mod tests {
         let result = SolanaAddress::parse("111111111111111111111111111111111");
         // Because the buffer `output` is 32 bytes, bs58::decode returns a BufferTooSmall error
         // which the current implementation maps to InvalidDecode.
-        assert_eq!(result, Err(SolanaAddressError::InvalidDecode));
+        assert_eq!(result, Err(SolanaAddressError::InvalidLen));
     }
 }
