@@ -2,6 +2,7 @@ use crate::error::SolanaAddressError;
 
 use std::fmt::{self, Display, Formatter};
 
+#[derive(Debug, PartialEq, Eq)]
 pub struct SolanaAddress(String);
 
 impl SolanaAddress {
@@ -32,11 +33,64 @@ impl Display for SolanaAddress {
     }
 }
 
-// Tests to cover:
-// - Empty string
-// - Invalid address (e.g., "acparosiesrtieon2313133213")
-// - Valid address
-// - Too many and too few characters
-// - Non-ASCII characters
-// - Invalid Base58 characters
-// - Valid Base58 encoding, but invalid size (e.g., 31 or 33 bytes)
+#[cfg(test)]
+mod tests {
+    #![cfg_attr(test, allow(clippy::unwrap_used, clippy::expect_used, clippy::panic))]
+
+    use crate::address::SolanaAddress;
+    use crate::error::SolanaAddressError;
+
+    use pretty_assertions::assert_eq;
+
+    #[test]
+    fn should_successfully_parse_when_address_is_valid() {
+        let raw_address = "4FfpTjYCH9rg8MRFdv3yoL3uJ3SnzKg8p7z2wXpXTBu8";
+        let address = SolanaAddress::parse(raw_address).unwrap();
+
+        assert_eq!(address.to_string(), raw_address);
+    }
+
+    #[test]
+    fn should_return_error_when_address_is_empty() {
+        let result = SolanaAddress::parse("");
+        // Decoding an empty string yields 0 bytes, which triggers InvalidLen
+        assert_eq!(result, Err(SolanaAddressError::InvalidLen));
+    }
+
+    #[test]
+    fn should_return_error_when_address_is_invalid_base58() {
+        let result = SolanaAddress::parse("acparosiesrtieon2313133213");
+        // This string contains valid base58 characters but its length is incorrect.
+        assert_eq!(result, Err(SolanaAddressError::InvalidLen));
+    }
+
+    #[test]
+    fn should_return_error_when_address_has_invalid_base58_characters() {
+        // '0' is not a valid base58 character
+        let result = SolanaAddress::parse("4FfpTjYCH9rg8MRFdv3yoL3uJ3SnzKg8p7z2wXpXTBu0");
+        assert_eq!(result, Err(SolanaAddressError::InvalidDecode));
+    }
+
+    #[test]
+    fn should_return_error_when_address_has_non_ascii_characters() {
+        // 'ü' is non-ascii
+        let result = SolanaAddress::parse("4FfpTjYCH9rg8MRFdv3yoL3uJ3SnzKg8p7z2wXpXTBü8");
+        assert_eq!(result, Err(SolanaAddressError::InvalidDecode));
+    }
+
+    #[test]
+    fn should_return_error_when_decoded_bytes_is_too_short() {
+        // 31 '1's = 31 bytes of zeros
+        let result = SolanaAddress::parse("1111111111111111111111111111111");
+        assert_eq!(result, Err(SolanaAddressError::InvalidLen));
+    }
+
+    #[test]
+    fn should_return_error_when_decoded_bytes_is_too_long() {
+        // 33 '1's = 33 bytes of zeros
+        let result = SolanaAddress::parse("111111111111111111111111111111111");
+        // Because the buffer `output` is 32 bytes, bs58::decode returns a BufferTooSmall error
+        // which the current implementation maps to InvalidDecode.
+        assert_eq!(result, Err(SolanaAddressError::InvalidDecode));
+    }
+}

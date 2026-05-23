@@ -1,6 +1,6 @@
 use thiserror::Error;
 
-#[derive(Error, Debug)]
+#[derive(Error, Debug, PartialEq, Eq)]
 pub enum SolanaAddressError {
     #[error("invalid base58 encoding")]
     InvalidDecode,
@@ -8,7 +8,7 @@ pub enum SolanaAddressError {
     InvalidLen,
 }
 
-#[derive(Error, Debug)]
+#[derive(Error, Debug, PartialEq, Eq)]
 pub enum LamportsError {
     #[error("Arithmetic overflow occurred")]
     ArithmeticOverflow,
