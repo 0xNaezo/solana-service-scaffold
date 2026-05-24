@@ -59,8 +59,8 @@ impl From<Lamports> for u64 {
 mod tests {
     #![cfg_attr(test, allow(clippy::unwrap_used, clippy::expect_used, clippy::panic))]
 
+    use crate::entities::lamports::Lamports;
     use crate::error::LamportsError;
-    use crate::lamports::Lamports;
 
     use pretty_assertions::assert_eq;
 
