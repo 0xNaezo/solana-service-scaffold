@@ -1,6 +1,6 @@
-use crate::error::SignatureError;
-
 use std::fmt::{self, Display, Formatter};
+
+use crate::error::SignatureError;
 
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Signature(String);
@@ -47,8 +47,8 @@ impl AsRef<str> for Signature {
 mod tests {
     #![cfg_attr(test, allow(clippy::unwrap_used, clippy::expect_used, clippy::panic))]
 
+    use crate::entities::signature::Signature;
     use crate::error::SignatureError;
-    use crate::signature::Signature;
 
     use pretty_assertions::assert_eq;
 

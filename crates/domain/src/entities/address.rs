@@ -47,7 +47,7 @@ impl AsRef<str> for SolanaAddress {
 mod tests {
     #![cfg_attr(test, allow(clippy::unwrap_used, clippy::expect_used, clippy::panic))]
 
-    use crate::address::SolanaAddress;
+    use crate::entities::address::SolanaAddress;
     use crate::error::SolanaAddressError;
 
     use pretty_assertions::assert_eq;

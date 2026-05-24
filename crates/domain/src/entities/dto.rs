@@ -1,4 +1,4 @@
-use crate::{address::SolanaAddress, lamports::Lamports, signature::Signature};
+use crate::entities::{address::SolanaAddress, lamports::Lamports, signature::Signature};
 
 #[derive(Debug, Clone)]
 pub struct RawTransactionData {

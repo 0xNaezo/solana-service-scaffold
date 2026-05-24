@@ -1,8 +1,10 @@
 use async_trait::async_trait;
 
 use crate::{
-    address::SolanaAddress, dto::RawTransactionData, error::ProviderError, lamports::Lamports,
-    signature::Signature,
+    entities::{
+        address::SolanaAddress, dto::RawTransactionData, lamports::Lamports, signature::Signature,
+    },
+    error::ProviderError,
 };
 
 #[async_trait]
