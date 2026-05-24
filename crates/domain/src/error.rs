@@ -4,6 +4,7 @@ use thiserror::Error;
 pub enum SolanaAddressError {
     #[error("invalid base58 encoding")]
     InvalidDecode,
+
     #[error("address length must be 32 bytes")]
     InvalidLen,
 }
@@ -12,6 +13,7 @@ pub enum SolanaAddressError {
 pub enum LamportsError {
     #[error("Arithmetic overflow occurred")]
     ArithmeticOverflow,
+
     #[error("Calculated balance cannot be negative")]
     NegativeBalance,
 }
@@ -20,6 +22,22 @@ pub enum LamportsError {
 pub enum SignatureError {
     #[error("invalid base58 encoding")]
     InvalidDecode,
+
     #[error("signature length must be 64 bytes")]
     InvalidLen,
+}
+
+#[derive(Error, Debug, PartialEq, Eq)]
+pub enum ProviderError {
+    #[error("account or transaction not found on-chain")]
+    NotFound,
+
+    #[error("provider rate limit exceeded")]
+    RateLimitExceeded,
+
+    #[error("provider returned malformed or unexpected data")]
+    InvalidResponse,
+
+    #[error("failed to communicate with the provider: {0}")]
+    Connection(String),
 }
