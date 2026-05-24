@@ -8,7 +8,7 @@ use crate::{
 };
 
 #[async_trait]
-pub trait SolanaProvider {
+pub trait SolanaProvider: Send + Sync {
     async fn get_balance(&self, address: SolanaAddress) -> Result<Lamports, ProviderError>;
 
     async fn get_signatures_for_address(
