@@ -66,26 +66,25 @@ mod tests {
 
     #[test]
     fn should_return_error_when_addition_overflows() {
+        // Adding 10 to u64::MAX causes an arithmetic overflow
         let first = Lamports::new(u64::MAX);
         let second = Lamports::new(10);
-
         let result = first.checked_add(&second);
-
         assert_eq!(result, Err(LamportsError::ArithmeticOverflow));
     }
 
     #[test]
     fn should_return_negative_balance_error_when_subtraction_underflows() {
+        // Subtracting 9999 from 10 causes subtraction underflow
         let first = Lamports::new(10);
         let second = Lamports::new(9999);
-
         let result = first.checked_sub(&second);
-
         assert_eq!(result, Err(LamportsError::NegativeBalance));
     }
 
     #[test]
     fn should_return_original_value_when_adding_or_subtracting_zero() {
+        // Adding or subtracting zero to/from any value returns the original value
         assert_eq!(
             Lamports::new(0).checked_add(&Lamports::new(0)).unwrap(),
             Lamports::new(0)
@@ -106,6 +105,7 @@ mod tests {
 
     #[test]
     fn should_successfully_add_two_values() {
+        // Successfully adding two values together without overflow
         let first = Lamports::new(10);
         let second = Lamports::new(20);
 
@@ -116,6 +116,7 @@ mod tests {
 
     #[test]
     fn should_successfully_subtract_two_values() {
+        // Successfully subtracting two values without underflow
         let first = Lamports::new(50);
         let second = Lamports::new(20);
 

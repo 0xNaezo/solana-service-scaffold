@@ -54,6 +54,7 @@ mod tests {
 
     #[test]
     fn should_successfully_parse_when_address_is_valid() {
+        // Valid address provided
         let raw_address = "4FfpTjYCH9rg8MRFdv3yoL3uJ3SnzKg8p7z2wXpXTBu8";
         let address = SolanaAddress::parse(raw_address).unwrap();
 
