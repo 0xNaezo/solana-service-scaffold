@@ -9,11 +9,15 @@ use crate::{
 
 #[async_trait]
 pub trait SolanaProvider {
-    async fn get_balance(address: SolanaAddress) -> Result<Lamports, ProviderError>;
+    async fn get_balance(&self, address: SolanaAddress) -> Result<Lamports, ProviderError>;
 
     async fn get_signatures_for_address(
+        &self,
         address: SolanaAddress,
     ) -> Result<Vec<Signature>, ProviderError>;
 
-    async fn get_transaction(address: SolanaAddress) -> Result<RawTransactionData, ProviderError>;
+    async fn get_transaction(
+        &self,
+        signature: Signature,
+    ) -> Result<RawTransactionData, ProviderError>;
 }
