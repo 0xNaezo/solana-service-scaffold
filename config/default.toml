@@ -1,0 +1,6 @@
+[rpc]
+url = "https://mainnet.helius-rpc.com/?api-key="
+rps = 8
+max_concurrent = 2
+max_rate_limit_retries = 4
+api_key = ""

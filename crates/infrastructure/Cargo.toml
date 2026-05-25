@@ -10,6 +10,7 @@ workspace = true
 domain.workspace = true
 application.workspace = true
 
+url = { version = "2.5", features = ["serde"] }
 reqwest = { version = "0.13", features = ["json"] }
 futures = "0.3"
 sqlx = { version = "0.9", features = [
@@ -23,6 +24,7 @@ sqlx = { version = "0.9", features = [
 ] }
 axum = { version = "0.8", features = ["macros"] }
 prometheus = "0.14"
+async-trait = "0.1"
 
 tokio.workspace = true
 serde.workspace = true
