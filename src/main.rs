@@ -1,4 +1,4 @@
-use anyhow::{Ok, Result};
+use anyhow::Result;
 use solana_service_scaffold::configuration::Settings;
 
 fn main() -> Result<()> {

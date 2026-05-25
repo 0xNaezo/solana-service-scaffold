@@ -23,15 +23,14 @@ impl Settings {
         dotenvy::dotenv().ok();
 
         let config = Config::builder()
-            .add_source(File::with_name("config/default"))
+            .add_source(File::with_name("config/default.toml"))
             .add_source(File::with_name("config/local.toml").required(false))
             .add_source(
                 Environment::with_prefix("APP")
                     .prefix_separator("__")
                     .separator("__")
                     .try_parsing(true)
-                    .list_separator(",")
-                    .with_list_parse_key("server.cors_allowed_origins"),
+                    .list_separator(","),
             )
             .build()?;
 
